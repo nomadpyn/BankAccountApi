@@ -1,14 +1,21 @@
+#region Using
 using Microsoft.EntityFrameworkCore;
 using BankAccountApi.Data;
 using BankAccountApi.Services;
 using BankAccountApi.Services.Interfaces;
 using BankAccountApi.Utils.Mapper;
-using Microsoft.AspNetCore.Authentication;
+#endregion
 
 namespace BankAccountApi
 {
+    #region Public Class Program
+
+    /// <summary>
+    /// Основной класс программы
+    /// </summary>
     public class Program
     {
+        #region Public Static Methods
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -47,5 +54,7 @@ namespace BankAccountApi
 
             app.Run();
         }
+        #endregion
     }
+    #endregion
 }

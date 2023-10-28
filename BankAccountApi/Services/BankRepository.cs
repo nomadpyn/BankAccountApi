@@ -1,19 +1,41 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#region Using
+using Microsoft.EntityFrameworkCore;
 using BankAccountApi.Data;
 using BankAccountApi.Models;
 using BankAccountApi.Services.Interfaces;
+#endregion
 
 namespace BankAccountApi.Services
 {
+    #region Public Class BankRepository
+
+    /// <summary>
+    /// Репозитори для работы с БД по BankContext
+    /// </summary>
     public class BankRepository : IBankRepository
     {
-        private readonly BankContext _dbContext;
+        #region Private Fields
 
+        /// <summary>
+        /// Контекст для подлючения к БД
+        /// </summary>
+        private readonly BankContext _dbContext;
+        #endregion
+
+        #region Constructor
         public BankRepository(BankContext dbContext)
         {
             _dbContext = dbContext;
         }
+        #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Получаем объект из БД по номеру счета
+        /// </summary>
+        /// <param name="accountNumber"></param>
+        /// <returns></returns>
         public async Task<BankAccount> GetBankAccount(int accountNumber)
         {
             BankAccount? account = null;
@@ -29,6 +51,11 @@ namespace BankAccountApi.Services
             return account;
         }                
 
+        /// <summary>
+        /// Создаем новый банковский счет в БД
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <returns></returns>
         public async Task<BankAccount> CreateNewBankAccount(BankAccount bankAccount)
         {
             BankAccount? account = null;
@@ -50,6 +77,11 @@ namespace BankAccountApi.Services
 
         }
 
+        /// <summary>
+        /// Создаем новую транзакцию в БД
+        /// </summary>
+        /// <param name="bankTransaction"></param>
+        /// <returns></returns>
         public async Task<BankTransaction> CreateTransaction(BankTransaction bankTransaction)
         {
             BankTransaction? transaction = null;
@@ -69,6 +101,10 @@ namespace BankAccountApi.Services
             return transaction;
         }
 
+        /// <summary>
+        /// Получаем из БД список всех транзакции
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<BankTransaction>> GetAllTransaction()
         {
             List<BankTransaction>? transactions = null;
@@ -88,6 +124,11 @@ namespace BankAccountApi.Services
             return transactions;
         }
 
+        /// <summary>
+        /// Получаем из БД список всех транзакции объекта bankAccount
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BankTransaction>> GetTransactionsByAccount(BankAccount bankAccount)
         {
             List<BankTransaction>? transactions = null;
@@ -108,6 +149,11 @@ namespace BankAccountApi.Services
             return transactions;
         }
 
+        /// <summary>
+        /// Получаем из БД список транзакции в соответсвии с pageParameters
+        /// </summary>
+        /// <param name="pageParameters"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BankTransaction>> GetAllTransactionByPage(PageParameters pageParameters)
         {
             List<BankTransaction>? transactions = null;
@@ -129,6 +175,12 @@ namespace BankAccountApi.Services
             return transactions;
         }
 
+        /// <summary>
+        /// Получаем из БД список транзакции объекта bankAccount в соответсвии с pageParameters
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <param name="pageParameters"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BankTransaction>> GetTransactionsByAccountByPage(BankAccount bankAccount, PageParameters pageParameters)
         {
             List<BankTransaction>? transactions = null;
@@ -150,5 +202,7 @@ namespace BankAccountApi.Services
 
             return transactions;
         }
+        #endregion
     }
+    #endregion
 }

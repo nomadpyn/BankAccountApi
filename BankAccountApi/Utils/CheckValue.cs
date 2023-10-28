@@ -1,10 +1,24 @@
-﻿using BankAccountApi.Models;
+﻿#region Using
+using BankAccountApi.Models;
 using BankAccountApi.Utils.Helpers;
+#endregion
 
 namespace BankAccountApi.Utils
 {
+    #region Public Static Class CheckValue 
+
+    /// <summary>
+    /// Вспомогательный класс для валидации и проверки данных
+    /// </summary>
     public static class CheckValue
     {
+        #region Public Methods
+
+        /// <summary>
+        /// Возвращает true, если новый объект BankAccount соответсвует требованиям по созданию
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <returns></returns>
         public static bool CheckNewBankAccount(BankAccount bankAccount)
         {
             if (bankAccount == null) { return false; }
@@ -15,6 +29,12 @@ namespace BankAccountApi.Utils
 
             return true;
         }
+
+        /// <summary>
+        /// Возвращает true, если объект BankAccount пустой
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <returns></returns>
         public static bool CheckEmptyBankAccount(BankAccount bankAccount)
         {
             if (bankAccount == null) { return true; }
@@ -23,6 +43,12 @@ namespace BankAccountApi.Utils
 
             return false;
         }
+
+        /// <summary>
+        /// Возвращает true, если объект TransactionModel соответствует требованиям
+        /// </summary>
+        /// <param name="transactionModel"></param>
+        /// <returns></returns>
         public static bool ValidateTransactionModel(TransactionModel transactionModel)
         {
             if (transactionModel == null)
@@ -47,11 +73,23 @@ namespace BankAccountApi.Utils
 
             return true;
         }
+
+        /// <summary>
+        /// Возвращает true, если number больше 0
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public static bool ValidateAccountNumber(int number)
         {
             if (number <= 0) { return false; }
             return true;
         }
+
+        /// <summary>
+        /// Возвращает true, если transactionModelSign находится в списке признаков транзакции
+        /// </summary>
+        /// <param name="transactionModelSign"></param>
+        /// <returns></returns>
         public static bool ValidateTransactionModelSign(string? transactionModelSign)
         {
             transactionModelSign = transactionModelSign ?? string.Empty;
@@ -72,6 +110,12 @@ namespace BankAccountApi.Utils
                     }
             }
         }
+
+        /// <summary>
+        /// Возвращает true, если объект BankTransaction пустой
+        /// </summary>
+        /// <param name="bankTransaction"></param>
+        /// <returns></returns>
         public static bool CheckEmptyBankTransaction(BankTransaction bankTransaction)
         {
             if (bankTransaction == null)
@@ -83,6 +127,12 @@ namespace BankAccountApi.Utils
 
             return false;
         }
+
+        /// <summary>
+        /// Возвращает true, если результат расчет больше или равен 0
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public static bool CheckTransactionResult(decimal result)
         {
             if (result < 0)
@@ -90,5 +140,7 @@ namespace BankAccountApi.Utils
             return true;
 
         }
+        #endregion
     }
+    #endregion
 }

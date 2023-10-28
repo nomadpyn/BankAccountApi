@@ -1,23 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿#region Using
+using Microsoft.AspNetCore.Mvc;
 using BankAccountApi.Models;
-using BankAccountApi.Models.Dto;
-using BankAccountApi.Services;
 using BankAccountApi.Services.Interfaces;
 using BankAccountApi.Utils;
+#endregion
 
 namespace BankAccountApi.Controllers
 {
+    #region Public Class BankAccountController
+
+    /// <summary>
+    /// Контроллер для работы с банковским аккаунтом
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class BankAccountController : Controller
-    {        
-        private readonly IBankWorker _transactionWorker;
+    {
+        #region Private Fields
 
+        /// <summary>
+        /// Объект для работы с данными (БЛ)
+        /// </summary>
+        private readonly IBankWorker _transactionWorker;
+        #endregion
+
+        #region Constructor
         public BankAccountController(IBankWorker transactionWorker)
         {            
             _transactionWorker = transactionWorker;
         }
+        #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Получаем номер счета для его поиска и возвращаем IActionResult в зависимости от результата
+        /// </summary>
+        /// <param name="accountNumber"></param>
+        /// <returns></returns>
         [HttpGet("{accountNumber}")]        
         public async Task<IActionResult> GetCurrentAccount(int accountNumber)
         {
@@ -36,6 +56,11 @@ namespace BankAccountApi.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Получаем номер счета для его поиска и вывода суммы на счету и возвращаем IActionResult в зависимости от результата
+        /// </summary>
+        /// <param name="accountNumber"></param>
+        /// <returns></returns>
         [HttpGet("balance/{accountNumber}")]
         public async Task<IActionResult> GetAmountByAccount(int accountNumber)
         {
@@ -54,6 +79,11 @@ namespace BankAccountApi.Controllers
             return Ok(result.Amount);
         }
 
+        /// <summary>
+        /// Получаем новый банковский счет для его создания и возвращаем IActionResult в зависимости от результата
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <returns></returns>
         [HttpPost("createBankAccount")]
         public async Task<IActionResult> CreateBankAccount([FromBody] BankAccount bankAccount)
         {
@@ -71,8 +101,7 @@ namespace BankAccountApi.Controllers
 
             return Ok(result);
         }
-
-        
-
+        #endregion
     }
+    #endregion
 }
