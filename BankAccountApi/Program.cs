@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using BankAccountApi.Data;
+using BankAccountApi.Services;
+using BankAccountApi.Services.Interfaces;
+using BankAccountApi.Utils.Mapper;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BankAccountApi
 {
@@ -7,16 +13,27 @@ namespace BankAccountApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<BankContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddTransient<IBankRepository, BankRepository>();
+            builder.Services.AddTransient<IBankWorker, TransactionWorker>();
+
+            builder.Services.AddAutoMapper(typeof(BankMapperProfile));
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<BankContext>();
+
+                db.Database.Migrate();
+            }
+
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
